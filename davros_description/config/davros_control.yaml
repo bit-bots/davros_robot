@@ -1,0 +1,53 @@
+# Publish all joint states -----------------------------------
+# 100Hz is a compromise between fast reaction and CPU load
+joint_state_controller:
+  type: joint_state_controller/JointStateController
+  publish_rate: 100
+
+
+# TrajectoryActoin Controllers ------------------------------
+# FNH: this is a single controller for all joints; of course,
+# we could also set up controllers for the individual 'chains',
+# e.g. head, left_arm, right_arm, left_leg, right_leg.
+#
+trajcontroller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+    - HeadPan
+    - HeadRoll
+    - HeadTilt
+  gains:
+    HeadPan:        { p: 50.0, i: 0.00, d: 0.1, i_clamp: 4.0 }
+    HeadRoll:       { p: 50.0, i: 0.00, d: 0.1, i_clamp: 4.0 }
+    HeadTilt:       { p: 50.0, i: 0.00, d: 0.1, i_clamp: 4.0 }
+  allow_partial_joints_goal: true
+  constraints:
+      goal_time: 10
+
+JointGroupController:
+  type: effort_controllers/JointGroupPositionController
+  joints:
+    - HeadPan
+    - HeadRoll
+    - HeadTilt
+  HeadPan/pid:        { p: 50.0, i: 0.00, d: 1.0, i_clamp: 4.0 }
+  HeadRoll/pid:        { p: 50.0, i: 0.00, d: 1.0, i_clamp: 4.0 }
+  HeadTilt/pid:       { p: 50.0, i: 0.00, d: 1.0, i_clamp: 4.0 }
+
+# Individual Joint Position Controllers ---------------------------------------
+
+# HEAD
+HeadPanPositionController:
+  type: effort_controllers/JointPositionController
+  joint: HeadPan
+  pid: {p: 50.0, i: 0.00, d: 0.4}
+
+HeadRollPositionController:
+  type: effort_controllers/JointPositionController
+  joint: HeadRoll
+  pid: {p: 50.0, i: 0.00, d: 0.4}
+
+HeadTiltPositionController:
+  type: effort_controllers/JointPositionController
+  joint: HeadTilt
+  pid: {p: 50.0, i: 0.00, d: 0.4}

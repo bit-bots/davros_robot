@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: davros_description
+    relative_path: urdf/davros.urdf.xacro
+  SRDF:
+    relative_path: config/davros.srdf
+  CONFIG:
+    author_name: Marc Bestmann
+    author_email: bestmann@informatik.uni-hamburg.de
+    generated_timestamp: 1525437906

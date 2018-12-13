@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package>
+  <name>davros_description</name>
+  <version>1.0.0</version>
+  <description>URDF description of the Davros robot.</description>
+  
+  <maintainer email="bestmann@informatik.uni-hamburg.de">Marc Bestmann</maintainer>
+  <author email="bestmann@informatik.uni-hamburg.de">Marc Bestmann</author>
+  <author email="info@bit-bots.de">Hamburg Bit-Bots</author>
+
+  
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>urdf</build_depend>
+  <build_depend>xacro</build_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>urdf</run_depend>
+  <run_depend>xacro</run_depend>
+
+
+  <export>
+      <status>broken</status>
+      <language>xacro</language>
+  </export>
+</package>

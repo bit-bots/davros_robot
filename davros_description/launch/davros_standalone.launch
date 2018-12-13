@@ -1,0 +1,16 @@
+<launch>
+
+  <arg name="length" default="0" />
+
+  <include file="$(find davros_description)/launch/davros_rviz.launch">  
+    <arg name="length" value="$(arg length)" />      
+  </include>
+
+  <!-- We do not have a robot connected, so publish fake joint states -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="/use_gui" value="true"/>
+    <rosparam param="/source_list">[/config/fake_controller_joint_states]</rosparam>
+  </node>
+
+
+</launch>

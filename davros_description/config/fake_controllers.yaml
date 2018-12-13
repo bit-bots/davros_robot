@@ -1,0 +1,6 @@
+controller_list:
+  - name: fake_minibot_controller
+    joints:
+      - HeadPan
+      - HeadRoll
+      - HeadTilt

@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="davros">
+
+    <xacro:arg name="sim_ns" default="/" />
+
+    <xacro:arg name="length" default="0" /> <!-- length messured on the cylinder -->
+
+    <xacro:property name="tofa" value="1" /> <!--Torque factor-->
+    <xacro:property name="infa" value="1" /> <!--inertia factor-->
+    <xacro:property name="insu" value="0" /> <!--inertia summand-->
+    <xacro:property name="d" value="1" /> <!-- damping -->
+    <xacro:property name="f" value="1" /> <!-- friction -->
+    
+    <material name="black">
+        <color rgba="0.1 0.1 0.1 1" />
+    </material>
+    
+    <material name="silver">
+        <color rgba="0.73 0.77 0.8 1" />
+    </material>
+
+    <material name="brown">
+        <color rgba="0.87 0.72 0.53 1" />
+    </material>
+
+
+	
+    <link name="camera_optical_frame"/>
+    <link name="base_link" >
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="1" />
+            <inertia ixx="0.01" ixy="0.01" ixz="0.01" iyy="0.01" iyz="0.01" izz="0.01" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0.0325" rpy="0 0 0" />
+            <geometry>
+                <box size="0.3 0.3 0.065"/>
+            </geometry>
+            <material name="brown" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.0325" rpy="0 0 0" />
+            <geometry>
+                <box size="0.3 0.3 0.065"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="cylinder_base">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0.1" />
+            <inertia ixx="0.01" ixy="0.01" ixz="0.01" iyy="0.01" iyz="0.01" izz="0.01" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0.1975" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="0.395" radius="0.01575"/>
+            </geometry>
+            <material name="black" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.1975" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="0.395" radius="0.01575"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="cylinder_middle">
+       <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0.1" />
+            <inertia ixx="0.01" ixy="0.01" ixz="0.01" iyy="0.01" iyz="0.01" izz="0.01" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 ${$(arg length) / 2}" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="$(arg length)" radius="0.0125"/>
+            </geometry>
+            <material name="silver" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 ${$(arg length) / 2}" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="$(arg length)" radius="0.0125"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="cylinder_top">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0.1" />
+            <inertia ixx="0.01" ixy="0.01" ixz="0.01" iyy="0.01" iyz="0.01" izz="0.01" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0.09" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="0.18" radius="0.01"/>
+            </geometry>
+            <material name="black" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.09" rpy="0 0 0" />
+            <geometry>
+                <cylinder length="0.18" radius="0.01"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="head_pan">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0.1" />
+            <inertia ixx="0.01" ixy="0.01" ixz="0.01" iyy="0.01" iyz="0.01" izz="0.01" />
+        </inertial>
+        <visual>
+            <origin xyz="-0.003 0 0.015" rpy="0 0 0" />
+            <geometry>
+                <box size="0.05 0.028 0.03"/>
+            </geometry>
+            <material name="silver" />
+        </visual>
+        <collision>
+            <origin xyz="-0.003 0 0.015" rpy="0 0 0" />
+            <geometry>
+                <box size="0.05 0.028 0.03"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="head_roll">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0.1" />
+            <inertia ixx="0.01" ixy="0.01" ixz="0.01" iyy="0.01" iyz="0.01" izz="0.01" />
+        </inertial>
+        <visual>
+            <origin xyz="-0.02 0 0.013" rpy="0 0 0" />
+            <geometry>
+                <box size="0.09 0.035 0.05"/>
+            </geometry>
+            <material name="black" />
+        </visual>
+        <collision>
+            <origin xyz="-0.02 0 0.013" rpy="0 0 0" />
+            <geometry>
+                <box size="0.09 0.035 0.05"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="head_tilt">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0.1" />
+            <inertia ixx="0.01" ixy="0.01" ixz="0.01" iyy="0.01" iyz="0.01" izz="0.01" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0.03" rpy="0 0 0" />
+            <geometry>
+                <box size="0.025 0.045 0.06"/>
+            </geometry>
+            <material name="silver" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0.03" rpy="0 0 0" />
+            <geometry>
+                <box size="0.025 0.045 0.06"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <link name="camera">
+         <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <mass value="0.1" />
+            <inertia ixx="0.01" ixy="0.01" ixz="0.01" iyy="0.01" iyz="0.01" izz="0.01" />
+        </inertial>
+       <visual>
+            <origin xyz="-0.0125 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.025 0.1 0.04"/>
+            </geometry>
+            <material name="black" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <box size="0.025 0.1 0.04"/>
+            </geometry>
+        </collision>
+    </link>
+    
+
+
+
+    <joint name="base_to_cylinder_base" type="fixed">
+        <origin xyz="0.025 0 0.065" rpy="0 0 0" />
+        <parent link="base_link" />
+        <child link="cylinder_base" />
+        <axis xyz="0 0 0" />
+    </joint>
+
+    <joint name="cylinder_base_to_middle" type="fixed">
+        <origin xyz="0 0 0.375" rpy="0 0 0" />
+        <parent link="cylinder_base" />
+        <child link="cylinder_middle" />
+        <axis xyz="0 0 0" />
+    </joint>
+
+    <joint name="cylinder_middle_to_top" type="fixed">
+        <origin xyz="0 0 $(arg length)" rpy="0 0 0" />
+        <parent link="cylinder_middle" />
+        <child link="cylinder_top" />
+        <axis xyz="0 0 0" />
+    </joint>
+
+    <joint name="RShoulderPitch" type="revolute">
+        <origin xyz="0 0 0.15" rpy="0 0 0" />
+        <parent link="cylinder_top" />
+        <child link="head_pan" />
+        <axis xyz="0 0 1" />
+        <limit effort="${tofa*2.5}" velocity="5.6548668" lower="-3.141" upper="3.141" />
+        <dynamics damping="${d}" friction="${f}" />
+    </joint>
+
+    <joint name="LShoulderPitch" type="revolute">
+        <origin xyz="-0.004 0 0.033" rpy="0 0 0" />
+        <parent link="head_pan" />
+        <child link="head_roll" />
+        <axis xyz="-1 0 0" />
+        <limit effort="${tofa*2.5}" velocity="5.6548668" lower="-1.396263" upper="1.396263" />
+        <dynamics damping="${d}" friction="${f}" />
+    </joint>
+
+    <joint name="RShoulderRoll" type="revolute">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="head_roll" />
+        <child link="head_tilt" />
+        <axis xyz="0 -1 0" />
+        <limit effort="${tofa*2.5}" velocity="5.6548668" lower="-0.5235988" upper="2.268928" />
+        <dynamics damping="${d}" friction="${f}" />
+    </joint>
+
+    <joint name="head_to_camera" type="fixed">
+        <origin xyz="0.003 0 0.08" rpy="0 -0.1745329 0" />
+        <parent link="head_tilt" />
+        <child link="camera" />
+        <axis xyz="0 0 0" />
+        <dynamics damping="${d}" friction="${f}" />
+    </joint>
+
+    <joint name="camera__optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}" />
+      <parent link="camera" />
+      <child link="camera_optical_frame" />
+    </joint>
+
+    <transmission name="HeadPanTransmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="HeadPan">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="HeadPanMotor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="HeadRollTransmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="HeadRoll">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="HeadRollMotor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    <transmission name="HeadTiltTransmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="HeadTilt">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="HeadTiltMotor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+  <!-- joint controller -->
+    <gazebo>
+        <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
+            <robotNamespace>$(arg sim_ns)</robotNamespace>
+        </plugin>
+    </gazebo>
+
+  <!-- camera sensor -->
+  <gazebo reference="camera">
+        <sensor name='camera' type='camera'>
+          <pose>-0.050000 -0.010000 0.000000 -1.5708 0.000000 -3.141592</pose>
+          <camera name='__default__'>
+            <horizontal_fov>1.012300</horizontal_fov>
+            <image>
+              <width>800</width>
+              <height>600</height>
+            </image>
+            <clip>
+              <near>0.001000</near>
+              <far>100.000000</far>
+            </clip>
+          </camera>
+          <always_on>1</always_on>
+          <update_rate>30.000000</update_rate>
+          <visualize>1</visualize>
+          <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+            <alwaysOn>true</alwaysOn>
+            <updateRate>30</updateRate>
+            <cameraName>camera</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>camera</frameName>
+            <hackBaseline>0.07</hackBaseline>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+          </plugin>
+      </sensor>
+  </gazebo>
+
+   <!-- fake controller that allows us to move the robot and to get its oposition -->
+   <!-- rostopic pub /minibot/cmd_vel geometry_msgs/Twist "{ linear: [ 0.1, 0, 0], angular: [0.2, 0, 0.1] }" -->
+   <gazebo>
+    <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+      <robotNamespace>$(arg sim_ns)</robotNamespace>
+
+      <commandTopic>cmd_vel</commandTopic>
+      <odometryTopic>odom</odometryTopic>
+      <odometryFrame>odom</odometryFrame>
+      <odometryRate>100.0</odometryRate>
+      <robotBaseFrame>base_link</robotBaseFrame>
+    </plugin>
+  </gazebo>
+
+</robot>
