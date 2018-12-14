@@ -29,5 +29,10 @@
 
   <depend>davros_description</depend>
 
+  <export>
+     <bitbots_documentation>
+      <status>unknown</status>
+    </bitbots_documentation>
+  </export>
 
 </package>

@@ -20,7 +20,7 @@
 
 
   <export>
-      <status>broken</status>
+      <status>unknown</status>
       <language>xacro</language>
   </export>
 </package>
